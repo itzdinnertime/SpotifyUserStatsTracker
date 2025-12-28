@@ -1,2 +1,25 @@
+# Python
 /venv
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment and Secrets
 .env
+.cache
+
+# Database
+*.db
+spotify_stats.db
+
+# Node/React
+node_modules/
+build/
+package-lock.json
+
+# IDE
+.vscode/
+
+# alembic
+alembic.ini
+.alembic/

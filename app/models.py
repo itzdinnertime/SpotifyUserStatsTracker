@@ -25,7 +25,8 @@ class TopTrack(Base):
     time_range = Column(String)
     rank = Column(Integer)
     fetched_at = Column(DateTime)
-
+    image_url = Column(String)
+    
 class TopArtist(Base):
     __tablename__ = "topArtist"
 
@@ -37,6 +38,7 @@ class TopArtist(Base):
     time_range = Column(String)
     rank = Column(Integer)
     fetched_at = Column(DateTime)
+    image_url = Column(String)
     
 class RecentlyPlayed(Base):
     __tablename__ = "recentlyPlayed"

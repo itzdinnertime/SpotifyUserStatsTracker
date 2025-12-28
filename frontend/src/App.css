@@ -141,6 +141,13 @@ body {
   white-space: nowrap;
 }
 
+.album-art {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;

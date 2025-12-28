@@ -52,6 +52,7 @@ function TopTracks() {
                 <span className="track-name">{track.track_name}</span>
                 <span className="artist-name">{track.artist_name}</span>
               </div>
+              <img className="album-art" src={track.image_url} alt={track.track_name} />
             </li>
           ))}
         </ol>

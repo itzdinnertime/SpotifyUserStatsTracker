@@ -50,8 +50,8 @@ function TopArtists() {
               <span className="rank">#{artist.rank}</span>
               <div className="artist-info">
                 <span className="artist-name">{artist.artist_name}</span>
-                <span className="genres">{artist.genres}</span>
               </div>
+              <img className="album-art" src={artist.image_url} alt={artist.artist_name}/>
             </li>
           ))}
         </ol>
