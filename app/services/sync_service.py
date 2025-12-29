@@ -39,7 +39,7 @@ class SyncService:
             artists_data = self.spotify_client.get_top_artists(time_range)
             self.artist_repo.save_top_artists(user.id, artists_data, time_range)
         
-        # Fetch and save recently played
+        # Fetch and save recently played songs
         recently_played_data = self.spotify_client.get_recently_played(limit)
         self.recent_repo.save_recently_played(user.id, recently_played_data)
         
