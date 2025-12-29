@@ -14,15 +14,9 @@ React
 
 # How to start the program
 
-1. Run the api server
+1.In the root directory
 
-uvicorn app.main:app --reload
-
-2. Then run the frontend
-
-npm start
-
-# When adding a new column to the database:
+.\start.sh
 
 1. Input this into the venv cmd: 
 
