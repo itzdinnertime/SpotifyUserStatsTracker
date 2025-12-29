@@ -1,20 +1,16 @@
 import './App.css';
-import UserProfile from './components/UserProfile';
-import TopTracks from './components/TopTracks';
-import TopArtists from './components/TopArtists';
-import RecentlyPlayed from './components/RecentlyPlayed';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import StatsPage from './components/StatsPage';
 
 function App() {
   return (
-    <div className="App">
-      <UserProfile />
-      
-      <div className="stats-container">
-        <TopTracks />
-        <TopArtists />
-        <RecentlyPlayed />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/stats" element={<StatsPage />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -17,6 +17,22 @@ body {
   padding: 2rem;
 }
 
+.home-page {
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.home-page .go-to-stats-btn {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  background: #1db954;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
 .user-profile {
   text-align: center;
   margin-bottom: 3rem;
