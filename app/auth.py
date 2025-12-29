@@ -26,5 +26,3 @@ def get_spotify_client():
     )
     
     return spotipy.Spotify(auth_manager = auth_manager)
-
-
