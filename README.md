@@ -18,6 +18,8 @@ React
 
 .\start.sh
 
+# When adding a new column to the database:
+
 1. Input this into the venv cmd: 
 
 & ~/Spootifooy/venv/Scripts/Activate.ps1; alembic revision --autogenerate -m "initial schema with image_url"  
