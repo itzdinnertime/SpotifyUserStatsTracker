@@ -22,11 +22,11 @@ Author: itz_dinnertime (d_nnertime)
 
 ### Setting up virtual environment
 
-1. Input into (powershell/bash) : python -m venv venv
+1. Input into (powershell/bash): python -m venv venv
 
 2. Activate the virtual environment:
 
-    On Windows: venv\Scripts\activate
+    On Windows: venv\bin\activate
 
     On macOs/Linux: source venv/bin/activate
 
