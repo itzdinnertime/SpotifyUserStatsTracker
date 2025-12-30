@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from ..models import Session, TopTrack, TopArtist, RecentlyPlayed
+import pytz
 
 router = APIRouter()
 
@@ -21,15 +22,16 @@ def get_top_artists(time_range: str = "short_term"):
 
 
 @router.get("/recently-played")
-def get_recently_played():
+def get_recently_played(timezone: str = Query("UTC")):
     session = Session()
     tracks = session.query(RecentlyPlayed).order_by(RecentlyPlayed.played_at.desc()).limit(50).all()
     session.close()
+    tz = pytz.timezone(timezone)
     return [
         {
             "track_name": t.track_name,
             "artist_name": t.artist_name,
-            "played_at": t.played_at.isoformat() if t.played_at else None,
+            "played_at": t.played_at.astimezone(tz).isoformat() if t.played_at else None,
         }
         for t in tracks
     ]
