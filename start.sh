@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Start frontend
 cd frontend/
 npm start &
