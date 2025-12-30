@@ -33,7 +33,7 @@ Author: itz_dinnertime (d_nnertime)
 
 ### Setting up all dependencies
 
-1. Input into (powershell/bash) : pip install -r requirments.txt
+1. Input into (powershell/bash): pip install -r requirments.txt
 
 
 ### Setting up backend
@@ -64,13 +64,13 @@ Author: itz_dinnertime (d_nnertime)
 
 ## How to run
 
-# Via script
+### Via script
 
 1. In your root directory (bash) run: .\start.sh
 
 OR
 
-# Manually
+### Manually
 
 1. In your virtual environment run: uvicorn app.main:app --reload
 
