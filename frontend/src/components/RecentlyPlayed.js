@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-function RecentlyPlayed() {
+function RecentlyPlayed({ timezone }) {
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/stats/recently-played')
+    fetch(`http://localhost:8000/api/stats/recently-played?timezone=${timezone}`)
       .then(res => res.json())
       .then(data => {
         setTracks(data);
@@ -15,7 +15,7 @@ function RecentlyPlayed() {
         console.error('Error fetching recently played:', err);
         setLoading(false);
       });
-  }, []);
+  }, [timezone]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
