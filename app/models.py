@@ -12,13 +12,15 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     spotify_id = Column(String, unique=True)
     display_name = Column(String)
+    profile_image_url = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class TopTrack(Base):
-    __tablename__ = "topTrack"
+    __tablename__ = "top_track"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
+    snapshot_id = Column(Integer, ForeignKey("stats_snapshot.id"))
     track_id = Column(String)
     track_name = Column(String)
     artist_name = Column(String)
@@ -28,10 +30,11 @@ class TopTrack(Base):
     image_url = Column(String)
     
 class TopArtist(Base):
-    __tablename__ = "topArtist"
+    __tablename__ = "top_artist"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
+    snapshot_id = Column(Integer, ForeignKey("stats_snapshot.id"))
     artist_id = Column(String)
     genres = Column(String)
     artist_name = Column(String)
@@ -41,15 +44,24 @@ class TopArtist(Base):
     image_url = Column(String)
     
 class RecentlyPlayed(Base):
-    __tablename__ = "recentlyPlayed"
+    __tablename__ = "recently_played"
     
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
+    snapshot_id = Column(Integer, ForeignKey("stats_snapshot.id"))
     track_id = Column(String)
     track_name = Column(String)
     artist_name = Column(String)
     played_at = Column(DateTime)
     fetched_at = Column(DateTime)
+    
+class StatsSnapshot(Base):
+    __tablename__ = "stats_snapshot"
+    
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime)
+    snapshot_type = Column(String, default="auto")
 
 def init_db():
     Base.metadata.create_all(engine)

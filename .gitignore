@@ -23,3 +23,6 @@ package-lock.json
 # alembic
 alembic.ini
 .alembic/
+
+# pycache
+*__pycache__

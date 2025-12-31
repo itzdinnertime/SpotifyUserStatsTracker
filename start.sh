@@ -18,3 +18,6 @@ fi
 
 # Start backend
 uvicorn app.main:app --reload &
+
+# Fetch new data
+python -m app.fetch_data
