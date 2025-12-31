@@ -17,6 +17,10 @@ def refresh_stats(background_tasks: BackgroundTasks):
 @router.get("/top-tracks")
 def get_top_tracks(time_range: str = "short_term", snapshot_id: int = None):
     session = Session()
+    if not snapshot_id:
+        latest_snapshot = session.query(StatsSnapshot).order_by(StatsSnapshot.created_at.desc()).first()
+        if latest_snapshot:
+            snapshot_id = latest_snapshot.id
     query = session.query(TopTrack).filter_by(time_range=time_range)
     if snapshot_id:
         query = query.filter_by(snapshot_id=snapshot_id)
@@ -40,6 +44,10 @@ def get_top_artists(
     snapshot_id: int = None
 ):
     session = Session()
+    if not snapshot_id:
+        latest_snapshot = session.query(StatsSnapshot).order_by(StatsSnapshot.created_at.desc()).first()
+        if latest_snapshot:
+            snapshot_id = latest_snapshot.id
     query = session.query(TopArtist).filter_by(time_range=time_range)
     if snapshot_id:
         query = query.filter_by(snapshot_id=snapshot_id)
