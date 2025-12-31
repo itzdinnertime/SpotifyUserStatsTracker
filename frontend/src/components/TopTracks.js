@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
 
-function TopTracks() {
+function TopTracks({ snapshotId }) {
   const [tracks, setTracks] = useState([]);
   const [timeRange, setTimeRange] = useState('short_term');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:8000/api/stats/top-tracks?time_range=${timeRange}`)
+    let url = `http://localhost:8000/api/stats/top-tracks?time_range=${timeRange}`;
+    if (snapshotId) url += `&snapshot_id=${snapshotId}`;
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setTracks(data);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching tracks:', err);
         setLoading(false);
       });
-  }, [timeRange]);
+  }, [timeRange, snapshotId]);
 
   const timeRangeLabels = {
     short_term: 'Last 4 Weeks',
@@ -28,7 +29,6 @@ function TopTracks() {
   return (
     <div className="stats-section">
       <h2>🎵 Top Tracks</h2>
-      
       <div className="time-range-buttons">
         {Object.entries(timeRangeLabels).map(([key, label]) => (
           <button
@@ -40,7 +40,6 @@ function TopTracks() {
           </button>
         ))}
       </div>
-
       {loading ? (
         <p>Loading...</p>
       ) : (

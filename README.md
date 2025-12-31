@@ -49,7 +49,9 @@ Author: itz_dinnertime (d_nnertime)
 
 3. Then run: npm install react-router-dom
 
-4. Run: npm start
+4. Then run: npm install chart.js react-chartjs-2
+
+5. Run: npm start
 
 
 ### Updating database schema

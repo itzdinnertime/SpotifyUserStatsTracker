@@ -1,25 +1,24 @@
-import React, { useContext } from 'react';
-import UserProfile from './UserProfile';
+import React, { useState } from 'react';
 import TopTracks from './TopTracks';
 import TopArtists from './TopArtists';
 import RecentlyPlayed from './RecentlyPlayed';
+import SnapshotSelector from './SnapshotSelector';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import { TimezoneContext } from './TimezoneContext';
 
 function StatsPage() {
-  const { timezone } = useContext(TimezoneContext);
+  const [snapshotId, setSnapshotId] = useState(null);
 
   return (
     <div className="App">
       <Link to="/" style={{ color: '#1db954', textDecoration: 'underline', marginBottom: '1rem', display: 'inline-block' }}>
         ← Back to Home
       </Link>
-      <UserProfile />
+      <SnapshotSelector snapshotId={snapshotId} setSnapshotId={setSnapshotId} />
       <div className="stats-container">
-        <TopTracks />
-        <TopArtists />
-        <RecentlyPlayed timezone={timezone} />
+        <TopTracks snapshotId={snapshotId} />
+        <TopArtists snapshotId={snapshotId} />
+        <RecentlyPlayed snapshotId={snapshotId} />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './UserProfile.css';
 
 function UserProfile() {
   const [user, setUser] = useState(null);
@@ -17,13 +18,21 @@ function UserProfile() {
       });
   }, []);
 
-  if (loading) return <p>Loading profile...</p>;
-  if (!user) return <p>No user found</p>;
+  if (loading) return null;
+  if (!user) return null;
 
   return (
-    <div className="user-profile">
-      <h1>👋 Welcome, {user.display_name}!</h1>
-      <p className="spotify-id">Spotify ID: {user.spotify_id}</p>
+    <div className="user-greeting">
+      {user.profile_image_url && (
+        <img
+          src={user.profile_image_url}
+          alt={user.display_name}
+          className="user-greeting-img"
+        />
+      )}
+      <span className="user-greeting-text">
+        👋 Hello, <strong>{user.display_name}</strong>
+      </span>
     </div>
   );
 }

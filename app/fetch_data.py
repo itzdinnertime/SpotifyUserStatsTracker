@@ -4,7 +4,7 @@ Run with: python -m app.fetch_data
 """
 
 from .auth import get_spotify_client
-from .models import init_db, Session, User, TopTrack, TopArtist, RecentlyPlayed
+from .models import init_db, Session, User, TopTrack, TopArtist, RecentlyPlayed, StatsSnapshot
 from datetime import datetime
 
 
@@ -15,20 +15,46 @@ def main():
     
     # Fetch user profile from Spotify
     me = sp.current_user()
+    
+    # Fetch profile image URL if available
+    profile_image_url = None
+    if me.get('images') and len(me['images']) > 0:
+        profile_image_url = me['images'][0]['url']
 
     # Check if user exist in database
     user = session.query(User).filter_by(spotify_id=me['id']).first()
 
     # If user doesn't exist, create one
+    # If user doesn't exist, create one
     if not user:
-        user = User(spotify_id=me['id'], display_name=me.get('display_name'))
+        user = User(
+            spotify_id=me['id'],
+            display_name=me.get('display_name'),
+            profile_image_url=profile_image_url
+        )
         session.add(user)
         session.commit()
+    else:
+        # Update profile image and display name if changed
+        updated = False
+        if user.profile_image_url != profile_image_url:
+            user.profile_image_url = profile_image_url
+            updated = True
+        if user.display_name != me.get('display_name'):
+            user.display_name = me.get('display_name')
+            updated = True
+        if updated:
+            session.commit()
     
     # Clear old data for this user before inserting new data
-    session.query(TopTrack).filter_by(user_id=user.id).delete()
-    session.query(TopArtist).filter_by(user_id=user.id).delete()
-    session.query(RecentlyPlayed).filter_by(user_id=user.id).delete()
+    # session.query(TopTrack).filter_by(user_id=user.id).delete()
+    # session.query(TopArtist).filter_by(user_id=user.id).delete()
+    # session.query(RecentlyPlayed).filter_by(user_id=user.id).delete()
+    # session.commit()
+    
+    # Insert new stats with snapshot_id every time data is fetched
+    snapshot = StatsSnapshot(user_id=user.id, created_at=datetime.utcnow(), snapshot_type="auto")
+    session.add(snapshot)
     session.commit()
         
     for time_range in ['short_term', 'medium_term', 'long_term']:
@@ -37,6 +63,7 @@ def main():
         for rank, item in enumerate(results['items'], 1):
             track = TopTrack(
                 user_id=user.id,
+                snapshot_id=snapshot.id,
                 track_id=item['id'],
                 track_name=item['name'],
                 artist_name=item['artists'][0]['name'],
@@ -53,6 +80,7 @@ def main():
         for rank, item in enumerate(results['items'], 1):
             artist = TopArtist(
                 user_id=user.id,
+                snapshot_id=snapshot.id,
                 artist_id=item['id'],
                 artist_name=item['name'],
                 genres=", ".join(item.get('genres', [])),
@@ -68,6 +96,7 @@ def main():
     for item in results['items']:
         recent = RecentlyPlayed(
             user_id=user.id,
+            snapshot_id=snapshot.id,
             track_id=item['track']['id'],
             track_name=item['track']['name'],
             artist_name=item['track']['artists'][0]['name'],

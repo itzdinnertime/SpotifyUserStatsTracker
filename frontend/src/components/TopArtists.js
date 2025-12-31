@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
 
-function TopArtists() {
-  const [artists, setArtists] = useState([]);
+function TopTracks({ snapshotId }) {
+  const [tracks, setTracks] = useState([]);
   const [timeRange, setTimeRange] = useState('short_term');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:8000/api/stats/top-artists?time_range=${timeRange}`)
+    let url = `http://localhost:8000/api/stats/top-tracks?time_range=${timeRange}`;
+    if (snapshotId) url += `&snapshot_id=${snapshotId}`;
+    fetch(url)
       .then(res => res.json())
       .then(data => {
-        setArtists(data);
+        setTracks(data);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching artists:', err);
         setLoading(false);
       });
-  }, [timeRange]);
+  }, [timeRange, snapshotId]);
 
   const timeRangeLabels = {
     short_term: 'Last 4 Weeks',
@@ -27,8 +28,7 @@ function TopArtists() {
 
   return (
     <div className="stats-section">
-      <h2>🎤 Top Artists</h2>
-      
+      <h2>🎵 Top Tracks</h2>
       <div className="time-range-buttons">
         {Object.entries(timeRangeLabels).map(([key, label]) => (
           <button
@@ -40,18 +40,18 @@ function TopArtists() {
           </button>
         ))}
       </div>
-
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ol className="artists-list">
-          {artists.map((artist, index) => (
+        <ol className="tracks-list">
+          {tracks.map((track, index) => (
             <li key={index}>
-              <span className="rank">#{artist.rank}</span>
-              <div className="artist-info">
-                <span className="artist-name">{artist.artist_name}</span>
+              <span className="rank">#{track.rank}</span>
+              <div className="track-info">
+                <span className="track-name">{track.track_name}</span>
+                <span className="artist-name">{track.artist_name}</span>
               </div>
-              <img className="album-art" src={artist.image_url} alt={artist.artist_name}/>
+              <img className="album-art" src={track.image_url} alt={track.track_name} />
             </li>
           ))}
         </ol>
@@ -60,4 +60,4 @@ function TopArtists() {
   );
 }
 
-export default TopArtists;
+export default TopTracks;

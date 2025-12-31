@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 
-function RecentlyPlayed({ timezone }) {
+function RecentlyPlayed({ snapshotId, timezone = 'UTC' }) {
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/stats/recently-played?timezone=${timezone}`)
+    let url = `http://localhost:8000/api/stats/recently-played?timezone=${timezone}`;
+    if (snapshotId) url += `&snapshot_id=${snapshotId}`;
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setTracks(data);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching recently played:', err);
         setLoading(false);
       });
-  }, [timezone]);
+  }, [timezone, snapshotId]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -30,7 +31,12 @@ function RecentlyPlayed({ timezone }) {
   return (
     <div className="stats-section">
       <h2>🕐 Recently Played</h2>
-
+      <div className="time-range-buttons" style={{ visibility: 'hidden', marginBottom: '1rem' }}>
+        {/* Placeholder for alignment */}
+        <button>Last 4 Weeks</button>
+        <button>Last 6 Months</button>
+        <button>All Time</button>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (

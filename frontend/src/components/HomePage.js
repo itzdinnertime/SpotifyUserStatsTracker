@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { TimezoneContext } from './TimezoneContext';
+import UserProfile from './UserProfile'; // <-- Add this import
 
 const timezones = [
   'UTC',
@@ -45,6 +46,7 @@ function HomePage() {
 
   return (
     <div className="home-page">
+      <UserProfile />
       <h1>Welcome to Spotify Stats!</h1>
       <p>See your top tracks, artists, and more.</p>
       <button

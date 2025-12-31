@@ -1,0 +1,24 @@
+.user-greeting {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+.user-greeting-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+  border: 2px solid #1db954;
+  background: #222;
+}
+
+.user-greeting-text {
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}
