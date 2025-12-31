@@ -46,7 +46,7 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      <UserProfile /> {/* <-- Add this line */}
+      <UserProfile />
       <h1>Welcome to Spotify Stats!</h1>
       <p>See your top tracks, artists, and more.</p>
       <button

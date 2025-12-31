@@ -15,15 +15,36 @@ def main():
     
     # Fetch user profile from Spotify
     me = sp.current_user()
+    
+    # Fetch profile image URL if available
+    profile_image_url = None
+    if me.get('images') and len(me['images']) > 0:
+        profile_image_url = me['images'][0]['url']
 
     # Check if user exist in database
     user = session.query(User).filter_by(spotify_id=me['id']).first()
 
     # If user doesn't exist, create one
+    # If user doesn't exist, create one
     if not user:
-        user = User(spotify_id=me['id'], display_name=me.get('display_name'))
+        user = User(
+            spotify_id=me['id'],
+            display_name=me.get('display_name'),
+            profile_image_url=profile_image_url
+        )
         session.add(user)
         session.commit()
+    else:
+        # Update profile image and display name if changed
+        updated = False
+        if user.profile_image_url != profile_image_url:
+            user.profile_image_url = profile_image_url
+            updated = True
+        if user.display_name != me.get('display_name'):
+            user.display_name = me.get('display_name')
+            updated = True
+        if updated:
+            session.commit()
     
     # Clear old data for this user before inserting new data
     # session.query(TopTrack).filter_by(user_id=user.id).delete()
